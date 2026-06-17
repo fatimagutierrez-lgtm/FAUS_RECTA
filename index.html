@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jornada FAUS — Modelo RECTA</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal:       #1D9E75;
+    --teal-light: #E1F5EE;
+    --teal-dark:  #085041;
+    --purple:     #534AB7;
+    --purple-light: #EEEDFE;
+    --purple-dark:  #3C3489;
+    --amber:      #BA7517;
+    --amber-light: #FAEEDA;
+    --coral:      #993C1D;
+    --coral-light: #FAECE7;
+    --blue:       #185FA5;
+    --blue-light: #E6F1FB;
+    --ink:        #1a1a1a;
+    --ink-mid:    #4a4a48;
+    --ink-soft:   #7a7a76;
+    --line:       #e4e2db;
+    --surface:    #f8f7f4;
+    --white:      #ffffff;
+    --radius-sm:  6px;
+    --radius-md:  10px;
+    --radius-lg:  16px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+    background: var(--surface);
+  }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--teal-dark);
+    color: var(--white);
+    padding: 56px 40px 48px;
+    margin: 0 -24px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.04);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #9FE1CB;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    line-height: 1.15;
+    font-weight: 400;
+    margin-bottom: 18px;
+  }
+  .hero h1 em { font-style: italic; color: #9FE1CB; }
+  .hero-desc {
+    font-size: 15px;
+    color: rgba(255,255,255,.72);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .hero-pill {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 14px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.12);
+    color: rgba(255,255,255,.9);
+    border: 1px solid rgba(255,255,255,.18);
+  }
+
+  /* ── NAV ÍNDICE ── */
+  .nav-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 48px;
+  }
+  .nav-index a {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--teal-dark);
+    background: var(--teal-light);
+    border-radius: 20px;
+    padding: 5px 14px;
+    text-decoration: none;
+    border: 1px solid rgba(29,158,117,.18);
+    transition: background .15s;
+  }
+  .nav-index a:hover { background: #9FE1CB; }
+
+  /* ── SECTION HEADERS ── */
+  .section-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  .section-title em { font-style: italic; color: var(--teal); }
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 48px 0;
+  }
+
+  /* ── CONTRATO ── */
+  .contrato-box {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 32px 36px;
+    margin-bottom: 12px;
+  }
+  .contrato-intro {
+    font-size: 14px;
+    color: var(--ink-mid);
+    line-height: 1.7;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .contrato-intro strong { color: var(--ink); }
+  .acuerdos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .acuerdo-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+  }
+  .acuerdo-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--teal-light);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+  .acuerdo-text { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+  .acuerdo-text strong { color: var(--ink); display: block; font-size: 13px; margin-bottom: 2px; }
+  .objetivos-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+  .objetivo-card {
+    background: var(--teal-light);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+  }
+  .objetivo-num { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin-bottom: 4px; }
+  .objetivo-text { font-size: 13px; font-weight: 500; color: var(--teal-dark); line-height: 1.4; }
+
+  /* ── AGENDA ── */
+  .agenda-timeline { position: relative; }
+  .agenda-timeline::before {
+    content: '';
+    position: absolute;
+    left: 70px; top: 0; bottom: 0;
+    width: 1px;
+    background: var(--line);
+  }
+  .agenda-item {
+    display: flex;
+    gap: 0;
+    margin-bottom: 6px;
+    position: relative;
+  }
+  .agenda-time {
+    width: 70px;
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    padding-top: 14px;
+    padding-right: 20px;
+    text-align: right;
+  }
+  .agenda-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 2px solid var(--line);
+    flex-shrink: 0;
+    margin-top: 18px;
+    margin-right: 16px;
+    margin-left: -5px;
+    position: relative;
+    z-index: 1;
+  }
+  .agenda-dot.dot-game { border-color: var(--teal); background: var(--teal-light); }
+  .agenda-dot.dot-ludico { border-color: var(--amber); background: var(--amber-light); }
+  .agenda-dot.dot-share { border-color: var(--purple); background: var(--purple-light); }
+  .agenda-dot.dot-break { border-color: var(--ink-soft); background: var(--line); }
+  .agenda-dot.dot-cierre { border-color: var(--coral); background: var(--coral-light); }
+  .agenda-content {
+    flex: 1;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+  }
+  .agenda-content.ac-game { border-left: 3px solid var(--teal); }
+  .agenda-content.ac-ludico { border-left: 3px solid var(--amber); }
+  .agenda-content.ac-share { border-left: 3px solid var(--purple); }
+  .agenda-content.ac-break { border-left: 3px solid var(--ink-soft); }
+  .agenda-content.ac-cierre { border-left: 3px solid var(--coral); }
+  .agenda-content-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .agenda-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .agenda-sub { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+  .fase-badge {
+    font-size: 10px; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; padding: 2px 9px; border-radius: 20px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .fb-teal { background: var(--teal-light); color: var(--teal-dark); }
+  .fb-purple { background: var(--purple-light); color: var(--purple-dark); }
+  .fb-amber { background: var(--amber-light); color: var(--amber); }
+  .fb-gray { background: #F1EFE8; color: #5F5E5A; }
+  .fb-coral { background: var(--coral-light); color: var(--coral); }
+
+  /* ── GAME CARDS ── */
+  .game-section { margin-bottom: 48px; }
+  .game-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .game-header {
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .game-num-badge {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .gnb-teal { background: var(--teal-light); color: var(--teal-dark); }
+  .gnb-purple { background: var(--purple-light); color: var(--purple-dark); }
+  .gnb-blue { background: var(--blue-light); color: var(--blue); }
+  .gnb-amber { background: var(--amber-light); color: var(--amber); }
+  .gnb-coral { background: var(--coral-light); color: var(--coral); }
+  .game-header-text { flex: 1; }
+  .game-type-label { font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 4px; }
+  .game-title { font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .game-meta-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .game-meta-pill { font-size: 11px; padding: 2px 9px; border-radius: 20px; background: var(--surface); color: var(--ink-mid); border: 1px solid var(--line); }
+  .game-body { padding: 0 28px 24px; }
+  .glabel {
+    font-size: 10px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-soft);
+    margin: 20px 0 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+  .gdesc { font-size: 14px; color: var(--ink-mid); line-height: 1.7; }
+  .step-list { list-style: none; }
+  .step-list li {
+    display: flex; gap: 14px;
+    font-size: 14px; color: var(--ink-mid);
+    line-height: 1.6; padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .step-list li:last-child { border-bottom: none; }
+  .step-n {
+    font-size: 11px; font-weight: 600;
+    color: var(--white);
+    background: var(--ink-soft);
+    border-radius: 50%;
+    width: 20px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .q-list { list-style: none; }
+  .q-list li {
+    font-size: 14px; color: var(--ink-mid);
+    line-height: 1.6; padding: 7px 0 7px 18px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .q-list li:last-child { border-bottom: none; }
+  .q-list li::before { content: '›'; position: absolute; left: 0; color: var(--ink-soft); }
+  .aprendizaje-box {
+    background: var(--teal-light);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--teal-dark);
+    line-height: 1.65;
+    border-left: 3px solid var(--teal);
+  }
+  .aprendizaje-box strong { color: var(--teal-dark); }
+  .variante-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+  .var-card { background: var(--surface); border-radius: var(--radius-md); padding: 12px 14px; border: 1px solid var(--line); }
+  .var-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .var-body { font-size: 13px; color: var(--ink-mid); line-height: 1.55; }
+  .palabras-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .palabra-tag { font-size: 12px; padding: 3px 11px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); color: var(--ink-mid); }
+  .link-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .lbtn {
+    font-size: 12px; color: var(--blue);
+    border: 1px solid #B5D4F4; border-radius: 20px;
+    padding: 4px 13px; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 5px;
+    transition: background .15s;
+  }
+  .lbtn:hover { background: var(--blue-light); }
+
+  /* ── TIP BOXES ── */
+  .tip-box {
+    background: #FAEEDA;
+    border-left: 3px solid var(--amber);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: 12px 16px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #412402;
+    line-height: 1.6;
+  }
+  .tip-box strong { color: var(--amber); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; display: block; margin-bottom: 4px; }
+
+  /* ── FACILITADORES ── */
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .tip-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+  }
+  .tip-card-icon { font-size: 20px; margin-bottom: 8px; }
+  .tip-card-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .tip-card-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+
+  /* ── CIERRE ── */
+  .cierre-box {
+    background: var(--teal-dark);
+    color: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 32px 36px;
+    text-align: center;
+  }
+  .cierre-box h3 { font-family: 'DM Serif Display', serif; font-size: 22px; font-weight: 400; margin-bottom: 10px; }
+  .cierre-box p { font-size: 14px; color: rgba(255,255,255,.75); line-height: 1.7; max-width: 500px; margin: 0 auto; }
+
+  /* ── PRINT ── */
+  .print-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 500;
+    color: var(--white);
+    background: var(--teal);
+    border: none; border-radius: 20px;
+    padding: 8px 20px; cursor: pointer;
+    margin-bottom: 32px;
+    text-decoration: none;
+    transition: background .15s;
+  }
+  .print-btn:hover { background: var(--teal-dark); }
+
+  @media print {
+    .print-btn, .nav-index { display: none; }
+    .hero { margin: 0 0 32px; }
+    body { font-size: 13px; }
+    .game-card { break-inside: avoid; }
+  }
+  @media (max-width: 600px) {
+    .hero { padding: 36px 24px 32px; }
+    .contrato-box { padding: 20px; }
+    .acuerdos-grid { grid-template-columns: 1fr; }
+    .tips-grid { grid-template-columns: 1fr; }
+    .variante-grid { grid-template-columns: 1fr; }
+    .agenda-timeline::before { left: 56px; }
+    .agenda-time { width: 56px; font-size: 11px; }
+    .game-header { padding: 16px 18px; }
+    .game-body { padding: 0 18px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="page" style="padding-bottom:0">
+    <div class="hero-eyebrow">Planificación facilitadores · Modelo RECTA</div>
+    <h1>Jornada <em>FAUS</em><br>Equipo que crece junto</h1>
+    <p class="hero-desc">Una jornada de 5 horas para que el equipo FAUS viva una experiencia transformadora: claridad de roles, delegación real y acuerdos concretos de compromiso.</p>
+    <div class="hero-meta">
+      <span class="hero-pill">📍 Presencial</span>
+      <span class="hero-pill">👥 15–25 personas</span>
+      <span class="hero-pill">⏱ 9:00 a 14:00 hs</span>
+      <span class="hero-pill">🧩 Equipo completo con roles mixtos</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <button class="print-btn" onclick="window.print()">⬇ Imprimir / Guardar PDF</button>
+
+  <nav class="nav-index" aria-label="Índice">
+    <a href="#contrato">Contrato de jornada</a>
+    <a href="#agenda">Hoja de ruta</a>
+    <a href="#ludico-a">Lúdico A · Bingo</a>
+    <a href="#juego1">Juego 1 · Torre</a>
+    <a href="#juego2">Juego 2 · Semáforo</a>
+    <a href="#ludico-b">Lúdico B · Teléfono</a>
+    <a href="#juego3">Juego 3 · Mapa</a>
+    <a href="#ludico-c">Lúdico C · Superpoderes</a>
+    <a href="#facilitadores">Tips facilitadores</a>
+  </nav>
+
+  <!-- ── CONTRATO ── -->
+  <section id="contrato">
+    <div class="section-eyebrow">Para leer juntas al inicio</div>
+    <div class="section-title">Contrato de <em>jornada</em></div>
+    <div class="contrato-box">
+      <p class="contrato-intro">
+        Hoy nos reunimos como equipo FAUS para hacer algo que no siempre encontramos tiempo de hacer en el día a día: <strong>mirarnos, escucharnos y acordar juntas cómo queremos trabajar.</strong><br><br>
+        Esta jornada no es una evaluación ni un juicio. Es un espacio para que cada una pueda decir lo que piensa, sentir lo que siente y comprometerse con lo que quiere. Lo que aquí se comparte, aquí queda. Lo que aquí se acuerda, nos lo llevamos todas.
+      </p>
+      <div class="section-eyebrow" style="margin-bottom:12px">Nos comprometemos a…</div>
+      <div class="acuerdos-grid">
+        <div class="acuerdo-item">
+          <div class="acuerdo-icon">🎯</div>
+          <div class="acuerdo-text"><strong>Estar presentes</strong>Celulares en silencio, mente en la sala.</div>
+        </div>
+        <div class="acuerdo-item">
+          <div class="acuerdo-icon">🗣️</div>
+          <div class="acuerdo-text"><strong>Hablar en primera persona</strong>Decir "yo siento / yo pienso", no "todo el mundo".</div>
+        </div>
+        <div class="acuerdo-item">
+          <div class="acuerdo-icon">👂</div>
+          <div class="acuerdo-text"><strong>Escuchar sin interrumpir</strong>Cada voz merece su espacio completo.</div>
+        </div>
+        <div class="acuerdo-item">
+          <div class="acuerdo-icon">🔒</div>
+          <div class="acuerdo-text"><strong>Confidencialidad</strong>Lo personal que se comparte no sale de aquí.</div>
+        </div>
+        <div class="acuerdo-item">
+          <div class="acuerdo-icon">✋</div>
+          <div class="acuerdo-text"><strong>Pedir pausas</strong>Si algo se siente intenso, podemos parar un momento.</div>
+        </div>
+        <div class="acuerdo-item">
+          <div class="acuerdo-icon">💪</div>
+          <div class="acuerdo-text"><strong>Incomodidad productiva</strong>Si algo incomoda, es señal de que importa.</div>
+        </div>
+      </div>
+      <div class="section-eyebrow" style="margin-bottom:10px">Lo que queremos lograr hoy</div>
+      <div class="objetivos-row">
+        <div class="objetivo-card">
+          <div class="objetivo-num">Objetivo 1</div>
+          <div class="objetivo-text">Entender y aceptar nuestros roles</div>
+        </div>
+        <div class="objetivo-card">
+          <div class="objetivo-num">Objetivo 2</div>
+          <div class="objetivo-text">Practicar la delegación con confianza</div>
+        </div>
+        <div class="objetivo-card">
+          <div class="objetivo-num">Objetivo 3</div>
+          <div class="objetivo-text">Definir acuerdos concretos de compromiso</div>
+        </div>
+        <div class="objetivo-card">
+          <div class="objetivo-num">Objetivo 4</div>
+          <div class="objetivo-text">Poner en práctica los principios de FAUS</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ── AGENDA ── -->
+  <section id="agenda">
+    <div class="section-eyebrow">Hoja de ruta</div>
+    <div class="section-title">Agenda del <em>día</em></div>
+
+    <div class="agenda-timeline">
+
+      <div class="agenda-item">
+        <div class="agenda-time">9:00</div>
+        <div class="agenda-dot dot-ludico"></div>
+        <div class="agenda-content ac-ludico">
+          <div class="agenda-content-top">
+            <div><div class="agenda-name">🎲 Lúdico A — Bingo de presentación FAUS</div><div class="agenda-sub">Rompe hielo · 12 min · Todo el grupo</div></div>
+            <span class="fase-badge fb-amber">Contrato</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-time">9:12</div>
+        <div class="agenda-dot"></div>
+        <div class="agenda-content">
+          <div class="agenda-content-top">
+            <div><div class="agenda-name">Bienvenida y lectura del contrato de jornada</div><div class="agenda-sub">Presentación del día, acuerdo colectivo · 8 min</div></div>
+            <span class="fase-badge fb-teal">R — Resultado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-time">9:20</div>
+        <div class="agenda-dot dot-game"></div>
+        <div class="agenda-content ac-game">
+          <div class="agenda-content-top">
+            <div><div class="agenda-name">🎮 Juego 1 — Torre de papeles</div><div class="agenda-sub">Roles, liderazgo y delegación bajo presión · 30 min</div></div>
+            <span class="fase-badge fb-teal">E — Experiencia</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-time">9:50</div>
+        <div class="agenda-dot dot-share"></div>
+        <div class="agenda-content ac-share">
+          <div class="agenda-content-top">
+            <div><div class="agenda-name">Compartir + Transferencia · Juego 1</div><div class="agenda-sub">Preguntas de proceso, conexión con FAUS · 35 min</div></div>
+            <span class="fase-badge fb-purple">C + T</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-time">10:25</div>
+        <div class="agenda-dot dot-game"></div>
+        <div class="agenda-content ac-game">
+          <div class="agenda-content-top">
+            <div><div class="agenda-name">🎮 Juego 2 — El semáforo de roles</div><div class="agenda-sub">Claridad, aceptación y responsabilidad del rol · 30 min</div></div>
+            <span class="fase-badge fb-teal">E — Experiencia</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-time">10:55</div>
+        <div class="agenda-dot dot-share"></div>
+        <div class="agenda-content ac-share">
+          <div class="agenda-content-top">
+            <div><div class="agenda-name">Compartir + Transferencia · Juego 2</div><div class="agenda-sub">Reflexión grupal, tensiones visibles · 30 min</div></div>
+            <span class="fase-badge fb-purple">C + T</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-time">11:25</div>
+        <div class="agenda-dot dot-break"></div>
+        <div class="agenda-content ac-break">
+          <div class="agenda-content-top">
+            <div><div class="agenda-name">☕ Break + Lúdico B — Teléfono descompuesto</div><div class="agenda-sub">Pausa activa con dinámica · 15 min</div></div>
+            <span class="fase-badge fb-gray">Pausa activa</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-time">11:40</div>
+        <div class="agenda-dot dot-game"></div>
+        <div class="agenda-content ac-game">
+          <div class="agenda-content-top">
+            <div><div class="agenda-name">🎮 Juego 3 — El mapa de compromisos</div><div class="agenda-sub">Acuerdos escritos y firma de compromisos · 40 min</div></div>
+            <span class="fase-badge fb-teal">E — Experiencia</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-time">12:20</div>
+        <div class="agenda-dot dot-share"></div>
+        <div class="agenda-content ac-share">
+          <div class="agenda-content-top">
+            <div><div class="agenda-name">Compartir + Transferencia · Juego 3</div><div class="agenda-sub">Consolidación, lectura en voz alta y firma · 50 min</div></div>
+            <span class="fase-badge fb-purple">C + T</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-time">13:10</div>
+        <div class="agenda-dot dot-ludico"></div>
+        <div class="agenda-content ac-ludico">
+          <div class="agenda-content-top">
+            <div><div class="agenda-name">🎲 Lúdico C — Lluvia de superpoderes</div><div class="agenda-sub">Cierre celebratorio · 12 min · Todo el grupo</div></div>
+            <span class="fase-badge fb-amber">Pre-cierre</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-item">
+        <div class="agenda-time">13:22</div>
+        <div class="agenda-dot dot-cierre"></div>
+        <div class="agenda-content ac-cierre">
+          <div class="agenda-content-top">
+            <div><div class="agenda-name">Declaración de aprendizajes + Cierre ecológico</div><div class="agenda-sub">¿Qué me llevo? Ritual de cierre colectivo · 38 min</div></div>
+            <span class="fase-badge fb-coral">A — Cierre</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ── LÚDICO A ── -->
+  <section id="ludico-a" class="game-section">
+    <div class="section-eyebrow">Juego lúdico A · Al inicio · 9:00</div>
+    <div class="section-title">Bingo de <em>presentación FAUS</em></div>
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-num-badge gnb-amber">A</div>
+        <div class="game-header-text">
+          <div class="game-type-label">Rompe hielo · Inicio de jornada</div>
+          <div class="game-title">Bingo de presentación FAUS</div>
+          <div class="game-meta-row">
+            <span class="game-meta-pill">⏱ 10–12 min</span>
+            <span class="game-meta-pill">👥 Todo el grupo</span>
+            <span class="game-meta-pill">📄 1 grilla impresa + lapicera por persona</span>
+            <span class="game-meta-pill">🔋 Energía baja · risas aseguradas</span>
+          </div>
+        </div>
+      </div>
+      <div class="game-body">
+        <div class="glabel">Descripción</div>
+        <p class="gdesc">Cada persona recibe una grilla 4×4 con frases relacionadas con la vida en FAUS. El objetivo es circular por la sala y encontrar compañeras que se identifiquen con cada frase — una persona diferente por casilla. Cuando la encuentra, la firman. La primera en completar una fila grita <em>"¡FAUS!"</em> en vez de "Bingo".</p>
+        <div class="tip-box"><strong>Tip facilitador</strong>Preparar la grilla con frases que toquen los temas del día sin exponerlos directamente: "Nunca le dije no a una tarea nueva", "Siento que mi rol no está del todo claro", "Alguna vez hice algo que no era mi responsabilidad", "Creo que FAUS tiene un futuro enorme". Esto activa los temas sin que nadie esté en guardia todavía.</div>
+        <div class="glabel">Variante si hay poco espacio</div>
+        <p class="gdesc">En vez de circular, cada persona lee una frase de su grilla y levanta la mano quien se identifica. Igual de efectivo, sin moverse del lugar.</p>
+        <div class="glabel">Preguntas de cierre del juego</div>
+        <ul class="q-list">
+          <li>¿Qué casilla te costó más encontrar a alguien que la firme? ¿Por qué?</li>
+          <li>¿Hubo alguna frase que te sorprendió ver en la grilla?</li>
+        </ul>
+        <div class="aprendizaje-box"><strong>Aprendizaje implícito:</strong> el equipo descubre puntos en común sobre roles y compromisos de manera no amenazante — antes de que empiece el trabajo profundo.</div>
+        <div class="link-row">
+          <a class="lbtn" href="https://www.sessionlab.com/methods/bingo" target="_blank">↗ Guía en SessionLab</a>
+          <a class="lbtn" href="https://www.youtube.com/results?search_query=bingo+de+presentacion+dinamica+grupal" target="_blank">↗ Ver en YouTube</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── JUEGO 1 ── -->
+  <section id="juego1" class="game-section">
+    <div class="section-eyebrow">Juego principal 1 · 9:20 — Fase: Experiencia</div>
+    <div class="section-title">Torre de <em>papeles</em></div>
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-num-badge gnb-teal">1</div>
+        <div class="game-header-text">
+          <div class="game-type-label">Delegación y liderazgo bajo presión</div>
+          <div class="game-title">Torre de papeles</div>
+          <div class="game-meta-row">
+            <span class="game-meta-pill">⏱ 30 min</span>
+            <span class="game-meta-pill">👥 Equipos de 4–5</span>
+            <span class="game-meta-pill">📦 Hojas A4, cinta y tijeras</span>
+            <span class="game-meta-pill">🔋 Energía media</span>
+          </div>
+        </div>
+      </div>
+      <div class="game-body">
+        <div class="glabel">Descripción</div>
+        <p class="gdesc">En grupos, con solo hojas de papel y cinta, cada equipo construye la torre más alta que se sostenga sola en 15 minutos. La restricción clave: <strong>quien lidera no puede tocar el material</strong> — solo puede dar instrucciones verbales. Activa la tensión de delegar, la dificultad de escuchar roles distintos y la coordinación bajo presión.</p>
+        <div class="glabel">Pasos</div>
+        <ul class="step-list">
+          <li><span class="step-n">1</span><span>Armar grupos de 4–5 personas mezclando roles (no agrupar por área). Designar o elegir quién lidera en cada grupo.</span></li>
+          <li><span class="step-n">2</span><span>Entregar el material y explicar la regla: quien lidera NO toca nada. Solo puede hablar. El grupo tiene 15 minutos.</span></li>
+          <li><span class="step-n">3</span><span>Dejar que el caos y la creatividad fluyan. El facilitador observa sin intervenir — anotar momentos de tensión o liderazgo espontáneo.</span></li>
+          <li><span class="step-n">4</span><span>Al terminar, medir las torres y celebrar. Luego pasar inmediatamente al compartir.</span></li>
+        </ul>
+        <div class="tip-box"><strong>Tip facilitador</strong>Observar quién toma el liderazgo sin que se lo pidan, y quién empieza a hacer cosas sin esperar instrucción. Esos momentos son oro para el compartir. Si el líder designado empieza a tocar el material por impulso, señalarlo con humor — eso es exactamente el punto de la dinámica.</div>
+        <div class="glabel">Preguntas para el compartir (C)</div>
+        <ul class="q-list">
+          <li>¿Qué rol tomaste espontáneamente? ¿Fue el que querías o el que "tocó"?</li>
+          <li>¿Cómo te sentiste cuando no podías hacer o controlar lo que querías?</li>
+          <li>¿Hubo un momento en que alguien tomó el liderazgo sin que se lo pidieran? ¿Qué pasó?</li>
+          <li>¿Qué necesitaba el equipo para funcionar mejor?</li>
+        </ul>
+        <div class="glabel">Preguntas de transferencia (T) — conexión con FAUS</div>
+        <ul class="q-list">
+          <li>¿En qué situaciones de FAUS se parecen a "querer tocar el material"?</li>
+          <li>¿Qué impide confiar en que el otro puede con su parte?</li>
+          <li>¿Qué necesita el equipo de FAUS para que cada una "sostenga su piso" de la torre?</li>
+        </ul>
+        <div class="aprendizaje-box"><strong>Aprendizaje implícito:</strong> la delegación no es soltar y olvidar — es confiar activamente. Sin tocar el material, el líder aprende que su rol es dar claridad, no hacer.</div>
+        <div class="link-row">
+          <a class="lbtn" href="https://www.sessionlab.com/methods/paper-tower" target="_blank">↗ Guía en SessionLab</a>
+          <a class="lbtn" href="https://www.youtube.com/results?search_query=paper+tower+team+building+activity" target="_blank">↗ Ver en YouTube</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── JUEGO 2 ── -->
+  <section id="juego2" class="game-section">
+    <div class="section-eyebrow">Juego principal 2 · 10:25 — Fase: Experiencia</div>
+    <div class="section-title">El semáforo <em>de roles</em></div>
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-num-badge gnb-purple">2</div>
+        <div class="game-header-text">
+          <div class="game-type-label">Claridad y aceptación del rol</div>
+          <div class="game-title">El semáforo de roles</div>
+          <div class="game-meta-row">
+            <span class="game-meta-pill">⏱ 30 min</span>
+            <span class="game-meta-pill">👥 Individual + plenario</span>
+            <span class="game-meta-pill">🟢🟡🔴 Tarjetas de colores + lapicera</span>
+            <span class="game-meta-pill">🔋 Energía media-alta</span>
+          </div>
+        </div>
+      </div>
+      <div class="game-body">
+        <div class="glabel">Descripción</div>
+        <p class="gdesc">Cada persona recibe 3 tarjetas de colores: <strong>verde</strong> (lo que hago y me corresponde), <strong>amarillo</strong> (lo que hago pero no sé si me corresponde) y <strong>rojo</strong> (lo que hago pero nadie me pidió o corresponde a otro). Cada una escribe en silencio. Luego comparte en voz alta en ronda. El facilitador agrupa en un papelógrafo las zonas de ambigüedad. Al final se negocian los "amarillos y rojos" en plenario.</p>
+        <div class="glabel">Pasos</div>
+        <ul class="step-list">
+          <li><span class="step-n">1</span><span>Entregar 3 tarjetas de colores a cada persona. Dar 8 minutos de escritura individual en silencio.</span></li>
+          <li><span class="step-n">2</span><span>En ronda, cada una lee sus tarjetas en voz alta. El facilitador va anotando en papelógrafo las zonas de superposición (dos personas que pusieron lo mismo en verde o rojo).</span></li>
+          <li><span class="step-n">3</span><span>Abrir conversación sobre las tarjetas amarillas: ¿cuál necesita resolverse primero? El grupo prioriza colectivamente.</span></li>
+          <li><span class="step-n">4</span><span>El papelógrafo queda visible para el Juego 3 — será insumo para los acuerdos.</span></li>
+        </ul>
+        <div class="tip-box"><strong>Tip facilitador</strong>Prestar especial atención a las tarjetas rojas de las fundadoras. Si Romi o Noe tienen muchas tarjetas rojas, eso no es un problema — es el diagnóstico más valioso del día. No señalarlo como error, sino como oportunidad: "¿qué necesitaría pasar para que estas tarjetas rojas se vuelvan verdes de alguien más?"</div>
+        <div class="glabel">Preguntas para el compartir (C)</div>
+        <ul class="q-list">
+          <li>¿Qué tarjeta fue más fácil de completar? ¿Cuál costó más?</li>
+          <li>¿Hubo sorpresas al escuchar lo que el otro considera rojo o amarillo?</li>
+          <li>¿Cómo se siente saber que alguien está haciendo algo que vos también hacés?</li>
+          <li>¿Qué tarjeta amarilla necesita resolverse urgente?</li>
+        </ul>
+        <div class="glabel">Preguntas de transferencia (T) — conexión con FAUS</div>
+        <ul class="q-list">
+          <li>¿Qué necesita pasar para que las tarjetas amarillas se vuelvan verdes?</li>
+          <li>¿Qué pasa en FAUS cuando las fundadoras tienen muchas tarjetas rojas?</li>
+          <li>¿Cómo impactan las zonas de superposición en la energía y compromiso del equipo?</li>
+        </ul>
+        <div class="aprendizaje-box"><strong>Aprendizaje implícito:</strong> lo que no se nombra, no se puede cambiar. El semáforo hace visible lo invisible — y al volverlo visible, ya no hay vuelta atrás.</div>
+        <div class="link-row">
+          <a class="lbtn" href="https://www.sessionlab.com/methods/role-clarification" target="_blank">↗ Guía en SessionLab</a>
+          <a class="lbtn" href="https://www.youtube.com/results?search_query=role+clarification+exercise+team" target="_blank">↗ Ver en YouTube</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LÚDICO B ── -->
+  <section id="ludico-b" class="game-section">
+    <div class="section-eyebrow">Juego lúdico B · Break · 11:25</div>
+    <div class="section-title">El teléfono <em>descompuesto</em></div>
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-num-badge gnb-amber">B</div>
+        <div class="game-header-text">
+          <div class="game-type-label">Pausa activa · Metáfora de comunicación</div>
+          <div class="game-title">El teléfono descompuesto</div>
+          <div class="game-meta-row">
+            <span class="game-meta-pill">⏱ 10–12 min</span>
+            <span class="game-meta-pill">👥 Todo el grupo en fila</span>
+            <span class="game-meta-pill">📦 Sin material necesario</span>
+            <span class="game-meta-pill">🔋 Energía baja-media</span>
+          </div>
+        </div>
+      </div>
+      <div class="game-body">
+        <div class="glabel">Dos modalidades — elegir según la energía del grupo</div>
+        <div class="variante-grid">
+          <div class="var-card">
+            <div class="var-title">Modalidad A — palabra susurrada</div>
+            <div class="var-body">La primera susurra una frase al oído de la siguiente. Nadie puede repetir ni pedir que repitan. La última dice en voz alta lo que llegó. Se compara con la original.</div>
+          </div>
+          <div class="var-card">
+            <div class="var-title">Modalidad B — gesto sin palabras</div>
+            <div class="var-body">La primera hace una mímica a la siguiente. Solo puede verlo una vez, sin repetir. La última ejecuta el gesto en público. Se compara con el original.</div>
+          </div>
+        </div>
+        <div class="glabel">Frases sugeridas relacionadas con FAUS</div>
+        <div class="palabras-row">
+          <span class="palabra-tag">delegar con confianza</span>
+          <span class="palabra-tag">los sueños se convierten</span>
+          <span class="palabra-tag">mi rol es claro</span>
+          <span class="palabra-tag">acompañar sin invadir</span>
+          <span class="palabra-tag">el equipo sostiene</span>
+          <span class="palabra-tag">acuerdo firmado</span>
+        </div>
+        <div class="tip-box"><strong>Tip facilitador</strong>Si el grupo está con energía media-alta después del break, elegir la modalidad de gestos — genera más movimiento y más carcajadas. Si hay personas más reservadas, la palabra susurrada es igual de efectiva y más cómoda. En cualquier caso, hacer 2 o 3 rondas cambiando quién arranca.</div>
+        <div class="glabel">Preguntas de cierre del juego</div>
+        <ul class="q-list">
+          <li>¿En qué punto se rompió el mensaje? ¿Qué pasó ahí?</li>
+          <li>¿Dónde se "rompe el teléfono" en FAUS en el día a día?</li>
+          <li>¿Qué necesitaría cada una para transmitir y recibir mensajes más claros?</li>
+        </ul>
+        <div class="aprendizaje-box"><strong>Aprendizaje implícito:</strong> lo que empieza claro llega distorsionado — exactamente lo que pasa en equipos sin roles definidos y sin comunicación directa. El grupo lo vive con humor, lo que baja la carga emocional para la segunda mitad.</div>
+        <div class="link-row">
+          <a class="lbtn" href="https://www.sessionlab.com/methods/chinese-whispers" target="_blank">↗ Guía en SessionLab</a>
+          <a class="lbtn" href="https://www.youtube.com/results?search_query=telefono+descompuesto+dinamica+grupal" target="_blank">↗ Ver en YouTube</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── JUEGO 3 ── -->
+  <section id="juego3" class="game-section">
+    <div class="section-eyebrow">Juego principal 3 · 11:40 — Fase: Experiencia</div>
+    <div class="section-title">El mapa de <em>compromisos</em></div>
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-num-badge gnb-blue">3</div>
+        <div class="game-header-text">
+          <div class="game-type-label">Acuerdos concretos · Principios en práctica</div>
+          <div class="game-title">El mapa de compromisos</div>
+          <div class="game-meta-row">
+            <span class="game-meta-pill">⏱ 40 min</span>
+            <span class="game-meta-pill">👥 Grupos mixtos por dirección</span>
+            <span class="game-meta-pill">📦 Canvas impreso o papel grande + marcadores</span>
+            <span class="game-meta-pill">🔋 Energía reflexiva</span>
+          </div>
+        </div>
+      </div>
+      <div class="game-body">
+        <div class="glabel">Descripción</div>
+        <p class="gdesc">Cada grupo (formado por personas de distintas áreas/roles) recibe un canvas con 4 cuadrantes: (1) Lo que nos comprometemos a hacer, (2) Lo que nos comprometemos a no hacer, (3) Cómo vamos a resolver los desacuerdos, (4) Cómo nos damos cuenta de que lo estamos cumpliendo. Cada grupo completa, luego presenta al plenario. El facilitador consolida los compromisos comunes en un "Acuerdo FAUS" que se firma al cierre.</p>
+        <div class="glabel">Pasos</div>
+        <ul class="step-list">
+          <li><span class="step-n">1</span><span>Armar grupos mezclando roles: que cada grupo tenga al menos una fundadora/directora y personas de distintas áreas.</span></li>
+          <li><span class="step-n">2</span><span>Entregar el canvas. Dar 20 minutos para completar los 4 cuadrantes juntos. Recordar que el papelógrafo del Juego 2 sigue visible — puede usarse como insumo.</span></li>
+          <li><span class="step-n">3</span><span>Cada grupo presenta al plenario (3 min por grupo). El facilitador anota en un afiche grande los compromisos que se repiten entre grupos — esos serán el "Acuerdo FAUS".</span></li>
+          <li><span class="step-n">4</span><span>Lectura colectiva en voz alta del Acuerdo FAUS consolidado. Cada una firma.</span></li>
+        </ul>
+        <div class="tip-box"><strong>Tip facilitador</strong>El cuadrante 3 (cómo resolver desacuerdos) suele ser el más difícil y el más valioso. No dejar que el grupo lo evite con respuestas genéricas como "hablando". Preguntar: ¿en qué plazo?, ¿con quién?, ¿qué pasa si no hay acuerdo? Ese nivel de especificidad es lo que convierte un compromiso en real.</div>
+        <div class="glabel">Preguntas para el compartir (C)</div>
+        <ul class="q-list">
+          <li>¿Cuál de los cuatro cuadrantes fue más difícil de acordar? ¿Por qué?</li>
+          <li>¿Encontraron algo donde los valores de FAUS guiaron la decisión?</li>
+          <li>¿Qué compromiso les genera más emoción y cuál más resistencia?</li>
+          <li>¿Cómo se sintieron al escribirlos y al escucharlos en voz alta?</li>
+        </ul>
+        <div class="glabel">Preguntas de transferencia (T) — conexión con FAUS</div>
+        <ul class="q-list">
+          <li>¿Qué pasa en FAUS cuando los compromisos están implícitos pero no escritos?</li>
+          <li>¿Qué necesita cada directora para poder cumplir su cuadrante 1?</li>
+          <li>¿Qué le pedirías hoy a Romi y Noe para poder comprometerte más?</li>
+          <li>¿Cómo hacemos para que este Acuerdo no quede solo en papel?</li>
+        </ul>
+        <div class="aprendizaje-box"><strong>Aprendizaje implícito:</strong> un compromiso sin testigo es una intención. Un compromiso escrito, leído en voz alta y firmado es un acto. Este juego convierte las conversaciones del día en algo concreto que el equipo se lleva.</div>
+        <div class="link-row">
+          <a class="lbtn" href="https://www.sessionlab.com/methods/team-agreements" target="_blank">↗ Team Agreements en SessionLab</a>
+          <a class="lbtn" href="https://www.youtube.com/results?search_query=team+agreement+canvas+workshop" target="_blank">↗ Ver en YouTube</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LÚDICO C ── -->
+  <section id="ludico-c" class="game-section">
+    <div class="section-eyebrow">Juego lúdico C · Cierre · 13:10</div>
+    <div class="section-title">Lluvia de <em>superpoderes</em></div>
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-num-badge gnb-coral">C</div>
+        <div class="game-header-text">
+          <div class="game-type-label">Cierre celebratorio · Reconocimiento mutuo</div>
+          <div class="game-title">Lluvia de superpoderes</div>
+          <div class="game-meta-row">
+            <span class="game-meta-pill">⏱ 10–12 min</span>
+            <span class="game-meta-pill">👥 En ronda, sentadas</span>
+            <span class="game-meta-pill">📦 Post-its o tarjetas + lapicera</span>
+            <span class="game-meta-pill">🔋 Emocionalmente potente</span>
+          </div>
+        </div>
+      </div>
+      <div class="game-body">
+        <div class="glabel">Descripción</div>
+        <p class="gdesc">Cada persona escribe en un post-it el "superpoder" que reconoce en la compañera a su derecha — algo que aporta al equipo y que quizás ella misma no ve. Lo escribe en secreto. En ronda, cada una lee en voz alta el superpoder que recibió antes de saber quién lo escribió. Primero lo lee, luego se revela quién lo dio.</p>
+        <div class="glabel">Pasos</div>
+        <ul class="step-list">
+          <li><span class="step-n">1</span><span>Formar ronda. Entregar un post-it y lapicera a cada persona. Escribir el superpoder de la compañera a la derecha en secreto (3 min).</span></li>
+          <li><span class="step-n">2</span><span>Pasar el post-it a esa compañera. Cada una lee en voz alta lo que recibió — sin saber todavía quién lo escribió.</span></li>
+          <li><span class="step-n">3</span><span>Luego de leerlo, quien lo escribió se revela. La que lo recibió puede decir una frase: "Voy a usar este superpoder en FAUS para...".</span></li>
+        </ul>
+        <div class="tip-box"><strong>Tip facilitador</strong>Este juego cierra el ciclo emocional del día. Después de un día de tensiones y acuerdos, el equipo necesita terminar viéndose con admiración — no con alivio de que terminó. Recordar antes de empezar: "Estamos nombrando lo que ya existe en esta persona y que no siempre decimos". Eso cambia el tono de lo terapéutico a lo verdadero.</div>
+        <div class="glabel">Preguntas de cierre del juego</div>
+        <ul class="q-list">
+          <li>¿Cómo se sintieron al recibir su superpoder? ¿Lo reconocían en ustedes mismas?</li>
+          <li>¿Qué superpoder del equipo todavía no estamos usando en FAUS?</li>
+        </ul>
+        <div class="aprendizaje-box"><strong>Aprendizaje implícito:</strong> los compromisos del Juego 3 quedan firmados con una energía completamente distinta cuando el equipo termina viéndose con admiración. No es optimismo falso — es reconocer lo que ya está.</div>
+        <div class="link-row">
+          <a class="lbtn" href="https://www.sessionlab.com/methods/appreciation-cards" target="_blank">↗ Appreciation Cards en SessionLab</a>
+          <a class="lbtn" href="https://www.youtube.com/results?search_query=superpoderes+dinamica+equipo+cierre" target="_blank">↗ Ver en YouTube</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ── FACILITADORES ── -->
+  <section id="facilitadores">
+    <div class="section-eyebrow">Solo para el equipo facilitador</div>
+    <div class="section-title">Tips para <em>facilitar</em></div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-card-icon">🧭</div>
+        <div class="tip-card-title">Seguir el proceso, no el plan</div>
+        <div class="tip-card-body">Si una conversación se pone especialmente rica durante el compartir, no cortarla para cumplir el horario. El plan es una guía, no una camisa de fuerza. Un insight genuino vale más que cubrir todos los puntos.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-card-icon">🌡️</div>
+        <div class="tip-card-title">Leer la temperatura del grupo</div>
+        <div class="tip-card-body">Si el grupo llega al Juego 3 con tensiones no resueltas del Juego 2, dar 5 minutos extra al compartir antes de continuar. Un grupo con emociones abiertas no puede hacer acuerdos de calidad.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-card-icon">🔍</div>
+        <div class="tip-card-title">Observar, no juzgar</div>
+        <div class="tip-card-body">Durante los juegos, tomar nota de los momentos de tensión, liderazgo espontáneo o resistencia. Ese material es el insumo más valioso para las preguntas de transferencia. No intervenir mientras se juega.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-card-icon">🤫</div>
+        <div class="tip-card-title">El silencio es información</div>
+        <div class="tip-card-body">Si una pregunta genera silencio, no apurarse a llenar ese espacio. Contar hasta 5 mentalmente antes de reformular. El silencio a menudo indica que algo importante está siendo procesado.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-card-icon">🎯</div>
+        <div class="tip-card-title">Rol de Romi y Noe</div>
+        <div class="tip-card-body">Las fundadoras participan como jugadoras en todos los juegos — no como observadoras. Esto es clave para la credibilidad del proceso. Si una de ellas tiene resistencia a algún ejercicio, esa resistencia es parte del aprendizaje.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-card-icon">📋</div>
+        <div class="tip-card-title">Material a preparar</div>
+        <div class="tip-card-body">Grilla Bingo impresa (1 por persona) · Tarjetas rojo/amarillo/verde (3 por persona) · Canvas Mapa de compromisos impreso (1 por grupo) · Post-its para superpoderes · Hojas A4 + cinta + tijeras para la torre · Papelógrafo y marcadores.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <div class="cierre-box">
+    <h3>Los sueños se convierten cuando el equipo los sostiene junto.</h3>
+    <p>Esta jornada no es el fin del proceso — es el comienzo de una nueva forma de trabajar juntas. Lo que se acuerda hoy tiene valor solo si se sostiene mañana.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
